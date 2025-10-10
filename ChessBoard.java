@@ -350,6 +350,49 @@ public class ChessBoard {
             }
         }
     }
+
+    //Creates the ArrayList needed for printBoard in PlayChess
+    public ArrayList<ReturnPiece> toReturnPieces() {
+    ArrayList<ReturnPiece> pieces = new ArrayList<>();
+
+    
+    for (int row = 0; row < 8; row++) {
+        for (int col = 0; col < 8; col++) {
+            ChessPiece piece = board[row][col];
+            if (piece != null) {
+                ReturnPiece rp = new ReturnPiece();
+
+                
+                char fileChar = colToFile(col);
+                int rank = rowToRank(row);
+
+                rp.pieceFile = ReturnPiece.PieceFile.valueOf(String.valueOf(fileChar));
+                rp.pieceRank = rank;
+                rp.pieceType = toReturnPieceType(piece);
+
+                pieces.add(rp);
+            }
+        }
+    }
+
+    return pieces;
+}    
+
+    //formats piece representation into expected from
+    private static ReturnPiece.PieceType toReturnPieceType(ChessPiece p) {
+    boolean white = p.getColor() == Color.WHITE;
+    return switch (p.getType()) {
+        case KING   -> white ? ReturnPiece.PieceType.WK : ReturnPiece.PieceType.BK;
+        case QUEEN  -> white ? ReturnPiece.PieceType.WQ : ReturnPiece.PieceType.BQ;
+        case ROOK   -> white ? ReturnPiece.PieceType.WR : ReturnPiece.PieceType.BR;
+        case BISHOP -> white ? ReturnPiece.PieceType.WB : ReturnPiece.PieceType.BB;
+        case KNIGHT -> white ? ReturnPiece.PieceType.WN : ReturnPiece.PieceType.BN;
+        case PAWN   -> white ? ReturnPiece.PieceType.WP : ReturnPiece.PieceType.BP;
+    };
+}
+
+
+
     
     // testing
     public static void main(String[] args) {
