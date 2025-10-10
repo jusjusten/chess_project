@@ -1,5 +1,7 @@
 // package chess;
 
+import java.util.ArrayList;
+
 public class ChessBoard {
     private static final char[] FILES = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
     private static final int[] RANKS = {1, 2, 3, 4, 5, 6, 7, 8};
