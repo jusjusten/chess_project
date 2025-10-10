@@ -1,10 +1,10 @@
-
+//package chess;
 
 public class GameState {
 
     private Player toMove; // tracks whose turn it is
     private boolean gameOver;
-    private String resultMessage; 
+    private ReturnPlay.Message resultMessage; 
     private boolean wCastleK, wCastleQ; // white king side and queen side
     private boolean bCastleK, bCastleQ; // black king side and queen side
 
@@ -44,7 +44,6 @@ public class GameState {
     public boolean canCastleK(Player p) { return (p == Player.WHITE) ? wCastleK : bCastleK; }
     public boolean canCastleQ(Player p) { return (p == Player.WHITE) ? wCastleQ : bCastleQ; }
 
-    
     public void disableCastlingForKing(Player p) {
         if (p == Player.WHITE) { wCastleK = false; wCastleQ = false; }
         else { bCastleK = false; bCastleQ = false; }
@@ -73,19 +72,30 @@ public class GameState {
     public Square getEnPassantTarget() { return enPassantTarget; }
 
     public boolean isGameOver() { return gameOver; }
-    public String getResultMessage() { return resultMessage; }
+    public ReturnPlay.Message getResultMessage() { return resultMessage; }
 
-    public void setCheck() { resultMessage = "CHECK"; }
+    public void setCheck() { 
+        resultMessage = ReturnPlay.Message.CHECK; 
+    }
+
+    public void setStalemate() {
+        gameOver = true;
+        resultMessage = ReturnPlay.Message.STALEMATE;
+    }
+
     public void setCheckmate(Player winner) {
         gameOver = true;
-        resultMessage = (winner == Player.WHITE) ? "CHECKMATE_WHITE_WINS" : "CHECKMATE_BLACK_WINS";
+        resultMessage = (winner == Player.WHITE) 
+            ? ReturnPlay.Message.CHECKMATE_WHITE_WINS 
+            : ReturnPlay.Message.CHECKMATE_BLACK_WINS;
     }
-    
-    
+
     public void setResign(Player resigned) {
         gameOver = true;
-        resultMessage = (resigned == Player.WHITE) ? "RESIGN_BLACK_WINS"
-                                                   : "RESIGN_WHITE_WINS";
+        resultMessage = (resigned == Player.WHITE)
+            ? ReturnPlay.Message.RESIGN_BLACK_WINS
+            : ReturnPlay.Message.RESIGN_WHITE_WINS;
     }
+
     public void clearMessage() { if (!gameOver) resultMessage = null; }
 }
